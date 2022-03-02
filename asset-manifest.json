@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/xop-lv-training/static/css/main.073c9b0a.css",
+    "main.js": "/xop-lv-training/static/js/main.8fa60d58.js",
+    "static/js/787.527640a7.chunk.js": "/xop-lv-training/static/js/787.527640a7.chunk.js",
+    "index.html": "/xop-lv-training/index.html",
+    "main.073c9b0a.css.map": "/xop-lv-training/static/css/main.073c9b0a.css.map",
+    "main.8fa60d58.js.map": "/xop-lv-training/static/js/main.8fa60d58.js.map",
+    "787.527640a7.chunk.js.map": "/xop-lv-training/static/js/787.527640a7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.8fa60d58.js"
+  ]
+}
