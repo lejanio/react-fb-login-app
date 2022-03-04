@@ -1,26 +1,31 @@
 import React from 'react';
 import {Routes, Route, Link} from 'react-router-dom'
-import './App.css';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 import CssBaselineProps from "@mui/material/CssBaseline";
-import {AppBar, Grid} from '@mui/material/';
+import {AppBar, Grid, Typography} from '@mui/material/';
 import {ThemeProvider} from '@mui/material/styles';
 import {makeStyles} from "@mui/styles";
-import theme from "./theme";
+import theme from "./mui/theme";
 
 const useStyles = makeStyles({
     root: {
         display: 'flex',
-        background: 'linear-gradient(45deg, #FE6BBB, #FF8E53)',
-        border: 0,
-        margin: '40px auto',
-        color: '#FFFFFF',
-        fontStyle: "italic",
+        width: '100%',
+        margin: '5rem auto',
+        padding: '1rem',
+        justifyContent: 'center',
+        textAlign: 'center'
     },
     appbar: {
-        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    navItem: {
+        textDecoration: 'none',
+        fontWeight: 700,
+        color: "inherit",
     }
 })
 
@@ -32,14 +37,19 @@ function App() {
             <CssBaselineProps/>
             <ThemeProvider theme={theme}>
                 <div className={classes.root}>
-                        <AppBar color="secondary" className={classes.appbar}>
-                            <Link to="/">Home</Link>
-                            <Link to="/login">Login</Link>
-                        </AppBar>
-                        <Routes>
-                            <Route path="/" element={<Home/>}/>
-                            <Route path="/login" element={<Login/>}/>
-                        </Routes>
+                    <AppBar color="secondary" className={classes.appbar}>
+                        <Typography>
+                            <Link className={classes.navItem} to="/">Home</Link>
+                        </Typography>
+                        <Typography>
+                            <Link className={classes.navItem} to="/login">Login</Link>
+                        </Typography>
+
+                    </AppBar>
+                    <Routes>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                    </Routes>
                 </div>
             </ThemeProvider>
         </>

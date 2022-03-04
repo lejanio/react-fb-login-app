@@ -1,9 +1,11 @@
 import React, {FormEvent, useState} from 'react';
 import FacebookLogin from 'react-facebook-login';
-import theme from "../theme";
+import logo from '../assets/logo.png';
 
-import {Button, Grid, TextField} from "@mui/material";
+import theme from "../mui/theme";
+import {Button, Grid, Paper, TextField} from "@mui/material";
 import {ThemeProvider} from '@mui/material/styles';
+import {makeStyles} from "@mui/styles";
 
 type FormType = {
     email: string;
@@ -17,11 +19,23 @@ type FbResponseType = {
     email: string;
 }
 
-const Login = () => {
+const useStyles = makeStyles({
+    imageContainer: {
+        display: 'flex',
+        width: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        boxShadow: 'none',
+        transform: 'rotate(90deg)',
+    },
+})
 
-    const [formValues, setFormValues] = useState<FormType>({email: "", password: ""})
+const Login = () => {
+    const classes = useStyles();
+
+    const [formValues, setFormValues] = useState<FormType>({email: '', password: ''})
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [fbResponse, setFbResponse] = useState<FbResponseType>({email: "", name: "", userID: ""})
+    const [fbResponse, setFbResponse] = useState<FbResponseType>({email: '', name: '', userID: ''})
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -31,8 +45,7 @@ const Login = () => {
         }
 
         alert('Success!')
-        setFormValues({email: "", password: ""})
-
+        setFormValues({email: '', password: ''})
     }
 
     const componentClicked = () => {
@@ -45,7 +58,6 @@ const Login = () => {
         const newResponse = {userID, name, email}
 
         setFbResponse(newResponse)
-        console.log(response)
         if (response.status === "unknown") {
             return
         }
@@ -63,7 +75,6 @@ const Login = () => {
             autoLoad={true}
             fields="name,email"
             onClick={componentClicked}
-            // @ts-ignore
             callback={responseFacebook}/>);
     }
 
@@ -72,55 +83,70 @@ const Login = () => {
             <ThemeProvider theme={theme}>
                 {isLoggedIn ? (
                     <>
-                        <div>Login successful!</div>
-                        <div>User: {fbResponse.name}</div>
-                        <div>Email: {fbResponse.email}</div>
+                        <Grid container direction="column">
+                            <Grid item style={{fontWeight: '700'}}>Login successful!</Grid>
+                            <Grid item>User: {fbResponse.name}</Grid>
+                            <Grid item>Email: {fbResponse.email}</Grid>
+                        </Grid>
                     </>) : (
-                    <Grid container direction="column" spacing={2} marginTop={1} justifyContent="center">
-                        Please provide your e-mail and password to log in.
-                        <form
-                            onSubmit={(e) => handleSubmit(e)}>
-                            <Grid item container direction="column" spacing={1} padding={1}>
-                                <Grid item>
-                                    <TextField
-                                        variant="outlined"
-                                        label="E-mail"
-                                        size="small"
-                                        placeholder="example@example.com"
-                                        type="email"
-                                        value={formValues.email}
-                                        onChange={(e) => {
-                                            const newFormValues = {...formValues, email: e.target.value}
-                                            setFormValues(newFormValues)
-                                        }}
-                                    />
+                    <Grid container xs={12} lg={6} columnSpacing={{xs: 1, md: 3}} justifyContent="center">
+                        < Grid item style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                            <Paper
+                                className={classes.imageContainer}
+                                elevation={0}
+                                sx={{display: {xs: 'none', lg: 'flex'}}}
+                            >
+                                <img src={logo} alt="App logo" width="250px"/>
+                            </Paper>
+                        </Grid>
+                        <Grid item container direction="column" rowSpacing={{xs: 1, md: 3}} marginTop={1} xs={12} lg={6}
+                              justifyContent="center">
+                            Please provide your e-mail and password to log in.
+                            <form
+                                onSubmit={(e) => handleSubmit(e)}>
+                                <Grid item container direction="column" spacing={1.5} padding={1}>
+                                    <Grid item>
+                                        <TextField
+                                            variant="outlined"
+                                            label="E-mail"
+                                            size="small"
+                                            placeholder="example@example.com"
+                                            type="email"
+                                            value={formValues.email}
+                                            onChange={(e) => {
+                                                const newFormValues = {...formValues, email: e.target.value}
+                                                setFormValues(newFormValues)
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <TextField
+                                            variant="outlined"
+                                            label="Password"
+                                            size="small"
+                                            type="password"
+                                            value={formValues.password}
+                                            onChange={(e) => {
+                                                const newFormValues = {...formValues, password: e.target.value}
+                                                setFormValues(newFormValues)
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            variant="contained"
+                                            color="secondary"
+                                            type="submit"
+                                        >
+                                            Submit
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                                <Grid item>
-                                    <TextField
-                                        variant="outlined"
-                                        label="Password"
-                                        size="small"
-                                        type="password"
-                                        value={formValues.password}
-                                        onChange={(e) => {
-                                            const newFormValues = {...formValues, password: e.target.value}
-                                            setFormValues(newFormValues)
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Button
-                                        variant="contained"
-                                        color="secondary"
-                                    >
-                                        Submit
-                                    </Button>
-                                </Grid>
+                            </form>
+                            <Grid item>
+                                You can also log in using Facebook:
+                                <div>{fbContent}</div>
                             </Grid>
-                        </form>
-                        <Grid item>
-                            You can also log in using Facebook:
-                            <div>{fbContent}</div>
                         </Grid>
                     </Grid>
                 )}
